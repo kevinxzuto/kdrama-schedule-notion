@@ -21,6 +21,7 @@ const fetchData = async () => {
                 "next_airEP": epInfo.data.next_episode_to_air.name,
                 "next_airSeason": epInfo.data.next_episode_to_air.season_number,
                 "next_airDATE": epInfo.data.next_episode_to_air.air_date,
+                "img": `https://image.tmdb.org/t/p/original${epInfo.data.poster_path}`
             }
 
             console.log(`Fetched ${epInfo.data.name}.`)
@@ -34,8 +35,6 @@ const fetchData = async () => {
     const fetchedShowsData = await Promise.all(fetchDataForShows)
     const filteredData = fetchedShowsData.filter(show => show !== null)
     tmdbArr.push(...filteredData)
-
-    createNotionpage()
 }
 
 const createNotionpage = async () => {
@@ -113,6 +112,16 @@ const createNotionpage = async () => {
                                     "start": data.next_airDATE
                                 }
                             },
+                            "IMG": {
+                                "files": [
+                                    {
+                                        "name": "Poster",
+                                        "external": {
+                                            "url": data.img
+                                        }
+                                    }
+                                ]
+                            },
                         }
                     })
                     console.log(response)
@@ -120,7 +129,8 @@ const createNotionpage = async () => {
             } else {
                 console.log(
                     `Entry for ${data.name} Season ${data.next_airSeason} Episode "${data.next_airEP}" already exists.`
-                )}
+                )
+            }
         }
     }
     catch (error) {
