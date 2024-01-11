@@ -53,7 +53,8 @@ const createNotionpage = async () => {
 
             const duplicateCheck = existingPages.results.find(page =>
                 page.properties.Name.title[0]?.text.content === data.name &&
-                page.properties.Episode.rich_text[0]?.text.content === data.next_airEP
+                page.properties.Episode.rich_text[0]?.text.content === data.next_airEP &&
+                page.properties.Date.date[0]?.start.content !== data.next_airDATE
             );
 
             if (duplicateCheck) {
